@@ -1,30 +1,39 @@
 class DummyDb {
-  static List<Map> questionslist = [
-  {
-    "question": "What is the capital of France?",
-    "option": ["Berlin", "Paris", "Rome", "Madrid"],
-    "answerIndex": 1
-  },
-  {
-    "question": "Which planet is known as the Red Planet?",
-    "option": ["Earth", "Venus", "Mars", "Jupiter"],
-    "answerIndex": 2
-  },
-  {
-    "question": "Who wrote 'To Kill a Mockingbird'?",
-    "option": ["Harper Lee", "J.K. Rowling", "Mark Twain", "Ernest Hemingway"],
-    "answerIndex": 0
-  },
-  {
-    "question": "What is the largest mammal in the world?",
-    "option": ["Elephant", "Blue Whale", "Giraffe", "Hippopotamus"],
-    "answerIndex": 1
-  },
-  {
-    "question": "In which year did World War II end?",
-    "option": ["1939", "1941", "1945", "1950"],
-    "answerIndex": 2
-  }
-];
-
+  static List<Map<String, dynamic>> questionList = [
+    {
+      "question": "What is the capital of France?",
+      "options": ["Berlin", "Madrid", "Paris", "Rome"],
+      "answerIndex": 2
+    },
+    {
+      "question": "Who wrote 'Romeo and Juliet'?",
+      "options": [
+        "Mark Twain",
+        "William Shakespeare",
+        "Jane Austen",
+        "Charles Dickens"
+      ],
+      "answerIndex": 1
+    },
+    {
+      "question": "Which planet is known as the Red Planet?",
+      "options": ["Earth", "Mars", "Jupiter", "Saturn"],
+      "answerIndex": 1
+    },
+    {
+      "question": "What is the boiling point of water?",
+      "options": ["50°C", "100°C", "150°C", "200°C"],
+      "answerIndex": 1
+    },
+    {
+      "question": "Which element has the chemical symbol 'O'?",
+      "options": ["Oxygen", "Gold", "Osmium", "Oganesson"],
+      "answerIndex": 0
+    },
+    {
+      "question": "What is the largest mammal?",
+      "options": ["Elephant", "Blue Whale", "Giraffe", "Polar Bear"],
+      "answerIndex": 1
+    }
+  ];
 }

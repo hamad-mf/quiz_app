@@ -11,116 +11,138 @@ class QuestionsScreen extends StatefulWidget {
 }
 
 class _QuestionsScreenState extends State<QuestionsScreen> {
-  int questionIndex = 0;
+  int questionIndex = 0; //sidhofusg
+
+  int? selectedAnswerIndex; //soihfosioeuf
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorConstants.mainblack,
+      backgroundColor: Colors.black,
       appBar: AppBar(
-        backgroundColor: ColorConstants.mainblack,
+        backgroundColor: Colors.black,
         actions: [
           Text(
-            "${questionIndex + 1}/${DummyDb.questionslist.length}",
-            style: TextStyle(color: ColorConstants.mainwhite, fontSize: 15),
-          ),
-          SizedBox(
-            width: 5,
+            "${questionIndex + 1} / ${DummyDb.questionList.length}",
+            style: TextStyle(
+                color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18),
           ),
         ],
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 15),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 25),
         child: Column(
           children: [
-            Container(
-              width: double.infinity,
-              height: 380,
-              decoration: BoxDecoration(
-                  color: ColorConstants.maingrey,
-                  borderRadius: BorderRadius.circular(12)),
-              child: Center(
-                child: Text(
-                  DummyDb.questionslist[questionIndex]["question"],
-                  style: TextStyle(
-                      color: ColorConstants.mainwhite,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold),
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 15,
-            ),
-            Column(
-              children: List.generate(
-                4,
-                (index) => Padding(
-                  padding: const EdgeInsets.all(4),
-                  child: Container(
-                    width: double.infinity,
-                    padding: EdgeInsets.symmetric(horizontal: 15),
-                    height: 50,
-                    decoration: BoxDecoration(
-                        color: ColorConstants.mainblack,
-                        border: Border.all(
-                            color: ColorConstants.mainwhite, width: 2),
-                        borderRadius: BorderRadius.circular(12)),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        // Padding(padding: EdgeInsets.all(12)),
-                        Text(
-                          DummyDb.questionslist[questionIndex]["option"][index],
-                          style: TextStyle(
-                              color: ColorConstants.mainwhite,
-                              fontSize: 15,
-                              fontWeight: FontWeight.w600),
-                        ),
-                        Icon(
-                          Icons.circle_outlined,
-                          color: ColorConstants.mainwhite,
-                        )
-                      ],
-                    ),
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                    color: Colors.grey,
+                    borderRadius: BorderRadius.circular(20)),
+                child: Center(
+                  child: Text(
+                    DummyDb.questionList[questionIndex]["question"],
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18),
                   ),
                 ),
               ),
             ),
-            SizedBox(
-              height: 15,
-            ),
+            Column(
+                children: List.generate(
+              DummyDb.questionList[questionIndex]["options"].length,
+              (optionIndex) {
+                var currentQuestion = DummyDb.questionList[questionIndex];
+
+                return Padding(
+                  padding: const EdgeInsets.only(top: 20),
+                  child: InkWell(
+                    onTap: () {
+                      selectedAnswerIndex = optionIndex;
+                      setState(() {});
+                      print(selectedAnswerIndex);
+                    },
+                    child: Container(
+                      padding:
+                          EdgeInsets.symmetric(vertical: 8, horizontal: 15),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(
+                            color: getColor(optionIndex),
+                            width: 2,
+                          )),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            currentQuestion["options"][optionIndex],
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18),
+                          ),
+                          Icon(
+                            Icons.circle_outlined,
+                            color: Colors.white,
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                );
+              },
+            )),
+            SizedBox(height: 20),
             InkWell(
               onTap: () {
-                setState(() {
-                  if (questionIndex < DummyDb.questionslist.length - 1) {
-                    questionIndex = questionIndex + 1;
-                  } else {
-                    // Optionally, handle the end of the quiz here
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => ResultScreen()));
-                  }
-                });
+                selectedAnswerIndex = null; // lksdfjlksdlf
+                if (questionIndex < DummyDb.questionList.length - 1) {
+                  //oisdjofiois
+                  questionIndex++;
+                  setState(() {});
+                } else {
+                  // navigate to result screen
+                }
               },
               child: Container(
-                height: 50,
                 width: double.infinity,
                 alignment: Alignment.center,
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
                 decoration: BoxDecoration(
-                    color: ColorConstants.buttonblue,
-                    borderRadius: BorderRadius.circular(12)),
+                  borderRadius: BorderRadius.circular(10),
+                  color: Colors.white,
+                ),
                 child: Text(
                   "Next",
-                  style:
-                      TextStyle(color: ColorConstants.mainblack, fontSize: 17),
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18),
                 ),
               ),
-            ),
+            )
           ],
         ),
       ),
     );
+  }
+
+  Color getColor(int currentOptinIndex) {
+    if (selectedAnswerIndex != null &&
+        currentOptinIndex ==
+            DummyDb.questionList[questionIndex]["answerIndex"]) {
+      return Colors.green;
+    }
+
+    if (selectedAnswerIndex == currentOptinIndex) {
+      if (selectedAnswerIndex ==
+          DummyDb.questionList[questionIndex]["answerIndex"]) {
+        return Colors.green;
+      } else {
+        return Colors.red;
+      }
+    } else {
+      return Colors.white;
+    }
   }
 }
