@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
+import 'package:quiz_app/Utils/Animation_constants.dart';
 import 'package:quiz_app/Utils/Color_constants.dart';
 import 'package:quiz_app/View/Result%20Screen/result_screen.dart';
 import 'package:quiz_app/dummy_db.dart';
@@ -17,7 +19,6 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
       appBar: AppBar(
         backgroundColor: Colors.black,
         actions: [
@@ -33,20 +34,25 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
         child: Column(
           children: [
             Expanded(
-              child: Container(
-                decoration: BoxDecoration(
-                    color: Colors.grey,
-                    borderRadius: BorderRadius.circular(20)),
-                child: Center(
-                  child: Text(
-                    DummyDb.questionList[questionIndex]["question"],
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18),
+              child: Stack(children: [
+                Container(
+                  decoration: BoxDecoration(
+                      color: Colors.grey,
+                      borderRadius: BorderRadius.circular(20)),
+                  child: Center(
+                    child: Text(
+                      DummyDb.questionList[questionIndex]["question"],
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18),
+                    ),
                   ),
                 ),
-              ),
+                if (selectedAnswerIndex ==
+                    DummyDb.questionList[questionIndex]["answerIndex"])
+                  Lottie.asset(AnimationConstants.RIGHT_ANSWER_ANIMATION),
+              ]),
             ),
             Column(
                 children: List.generate(
@@ -58,9 +64,11 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
                   padding: const EdgeInsets.only(top: 20),
                   child: InkWell(
                     onTap: () {
-                      selectedAnswerIndex = optionIndex;
-                      setState(() {});
-                      print(selectedAnswerIndex);
+                      if (selectedAnswerIndex == null) {
+                        selectedAnswerIndex = optionIndex;
+                        setState(() {});
+                        print(selectedAnswerIndex);
+                      }
                     },
                     child: Container(
                       padding:
@@ -93,34 +101,39 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
               },
             )),
             SizedBox(height: 20),
-            InkWell(
-              onTap: () {
-                selectedAnswerIndex = null; // lksdfjlksdlf
-                if (questionIndex < DummyDb.questionList.length - 1) {
-                  //oisdjofiois
-                  questionIndex++;
-                  setState(() {});
-                } else {
-                  // navigate to result screen
-                }
-              },
-              child: Container(
-                width: double.infinity,
-                alignment: Alignment.center,
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: Colors.white,
+            if (selectedAnswerIndex != null)
+              InkWell(
+                onTap: () {
+                  selectedAnswerIndex = null;
+                  if (questionIndex < DummyDb.questionList.length - 1) {
+                    questionIndex++;
+                    setState(() {});
+                  } else {
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ResultScreen(
+                                  righanswercount: 4,
+                                )));
+                  }
+                },
+                child: Container(
+                  width: double.infinity,
+                  alignment: Alignment.center,
+                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.white,
+                  ),
+                  child: Text(
+                    "Next",
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18),
+                  ),
                 ),
-                child: Text(
-                  "Next",
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18),
-                ),
-              ),
-            )
+              )
           ],
         ),
       ),
