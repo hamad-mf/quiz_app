@@ -51,7 +51,10 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
                 ),
                 if (selectedAnswerIndex ==
                     DummyDb.questionList[questionIndex]["answerIndex"])
-                  Lottie.asset(AnimationConstants.RIGHT_ANSWER_ANIMATION),
+                  Align(
+                      alignment: Alignment.center,
+                      child: Lottie.asset(
+                          AnimationConstants.RIGHT_ANSWER_ANIMATION)),
               ]),
             ),
             Column(
