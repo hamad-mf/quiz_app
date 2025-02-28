@@ -15,7 +15,7 @@ class _ResultScreenState extends State<ResultScreen> {
   int starCount = 0;
   calculateStarCount() {
     var percentage =
-        (widget.righanswercount / DummyDb.questionList.length) * 100;
+        (widget.righanswercount / DummyDb.categoryQuestions.length) * 100;
 
     if (percentage > 80) {
       starCount = 3;
@@ -91,10 +91,10 @@ class _ResultScreenState extends State<ResultScreen> {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 12),
           child: InkWell(
-            onTap: () {
-              Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (context) => QuestionsScreen()));
-            },
+            // onTap: () {
+            //   Navigator.pushReplacement(context,
+            //       MaterialPageRoute(builder: (context) => QuestionsScreen()));
+            // },
             child: Container(
               height: 50,
               width: double.infinity,
